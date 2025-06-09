@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form Validation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 30px auto; /* Center the form */
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 25px;
+            text-align: left;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            display: flex;
+            align-items: flex-start; /* Align label and input at the top */
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            width: 80px; /* Fixed width for labels */
+            text-align: right;
+            margin-right: 15px;
+            padding-top: 8px; /* Align with input field's text */
+            font-weight: bold;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="url"],
+        .form-group textarea {
+            flex-grow: 1; /* Allow input to take remaining width */
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            box-sizing: border-box; /* Include padding in width */
+            outline: none; /* Remove default outline on focus */
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #66afe9; /* Highlight on focus */
+            box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+        }
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-left: 10px; /* Space between input and error */
+            visibility: hidden; /* Hidden by default */
+            white-space: nowrap; /* Prevent wrapping for error messages */
+        }
+        /* Style for when an input is invalid */
+        .form-group.invalid input,
+        .form-group.invalid textarea {
+            border-color: red;
+        }
+        .form-group.invalid .error-message {
+            visibility: visible; /* Show error when invalid */
+        }
+        button[type="submit"] {
+            background-color: #4CAF50; /* Green submit button */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-left: 95px; /* Align with input fields */
+            transition: background-color 0.3s ease;
+        }
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Registration Form</h2>
+
+        <form id="registrationForm" onsubmit="return validateForm()">
+            <div class="form-group" id="nameGroup">
+                <label for="name">Name:</label>
+                <input type="text" id="name">
+                <span class="error-message" id="nameError">This field is required</span>
+            </div>
+
+            <div class="form-group" id="emailGroup">
+                <label for="email">Email:</label>
+                <input type="email" id="email">
+                <span class="error-message" id="emailError">A valid email address is required</span>
+            </div>
+
+            <div class="form-group" id="websiteGroup">
+                <label for="website">Website:</label>
+                <input type="url" id="website">
+                <span class="error-message" id="websiteError">A valid url is required</span>
+            </div>
+
+            <div class="form-group" id="messageGroup">
+                <label for="message">Message:</label>
+                <textarea id="message" rows="4"></textarea>
+                <span class="error-message" id="messageError">This field is required</span>
+            </div>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            let isValid = true; // Flag to track overall form validity
+
+            // Get references to input fields and error spans
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const websiteInput = document.getElementById('website');
+            const messageInput = document.getElementById('message');
+
+            const nameError = document.getElementById('nameError');
+            const emailError = document.getElementById('emailError');
+            const websiteError = document.getElementById('websiteError');
+            const messageError = document.getElementById('messageError');
+
+            const nameGroup = document.getElementById('nameGroup');
+            const emailGroup = document.getElementById('emailGroup');
+            const websiteGroup = document.getElementById('websiteGroup');
+            const messageGroup = document.getElementById('messageGroup');
+
+            // --- Name Validation ---
+            if (nameInput.value.trim() === '') {
+                nameError.textContent = 'This field is required';
+                nameGroup.classList.add('invalid');
+                isValid = false;
+            } else {
+                nameGroup.classList.remove('invalid');
+            }
+
+            // --- Email Validation ---
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (emailInput.value.trim() === '') {
+                emailError.textContent = 'A valid email address is required';
+                emailGroup.classList.add('invalid');
+                isValid = false;
+            } else if (!emailPattern.test(emailInput.value.trim())) {
+                emailError.textContent = 'Please enter a valid email format (e.g., example@domain.com)';
+                emailGroup.classList.add('invalid');
+                isValid = false;
+            } else {
+                emailGroup.classList.remove('invalid');
+            }
+
+            // --- Website Validation ---
+            // A simple regex for URL validation. Can be more robust if needed.
+            const urlPattern = /^(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/[a-zA-Z0-9]+\.[^\s]{2,}|[a-zA-Z0-9]+\.[^\s]{2,})$/i;
+            if (websiteInput.value.trim() === '') {
+                websiteError.textContent = 'A valid url is required';
+                websiteGroup.classList.add('invalid');
+                isValid = false;
+            } else if (!urlPattern.test(websiteInput.value.trim())) {
+                websiteError.textContent = 'Please enter a valid URL (e.g., http://example.com)';
+                websiteGroup.classList.add('invalid');
+                isValid = false;
+            } else {
+                websiteGroup.classList.remove('invalid');
+            }
+
+            // --- Message Validation ---
+            if (messageInput.value.trim() === '') {
+                messageError.textContent = 'This field is required';
+                messageGroup.classList.add('invalid');
+                isValid = false;
+            } else {
+                messageGroup.classList.remove('invalid');
+            }
+
+            // Prevent form submission if not valid
+            return isValid;
+        }
+
+        // Optional: Add event listeners for real-time validation feedback on typing/blur
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('registrationForm');
+            const inputs = form.querySelectorAll('input, textarea');
+
+            inputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    // Call validateForm to re-evaluate all fields, or
+                    // create a specific function for individual field validation
+                    // For simplicity, we'll re-validate the whole form on any input change
+                    // This might be less efficient for very large forms, but works fine here.
+                    validateForm(); 
+                });
+
+                input.addEventListener('blur', () => { // Validate when input loses focus
+                    validateForm();
+                });
+            });
+        });
+    </script>
+</body>
+</html>

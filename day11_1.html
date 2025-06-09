@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Exercises</title>
+</head>
+<body>
+    <h1>JavaScript Exercises Output</h1>
+    <p>Check the browser's developer console (F12) for results.</p>
+
+    <script>
+        // Exercise-1: Write a JavaScript function that reverses a number.
+        function reverseNumber(num) {
+            const numStr = String(num);
+            const reversedStr = numStr.split('').reverse().join('');
+            return parseInt(reversedStr, 10); 
+        }
+
+        console.log("--- Exercise 1: Reverse Number ---");
+        const x = 32243;
+        const output1 = reverseNumber(x);
+        console.log(`Original number: ${x}`);
+        console.log(`Expected Output: 34223`);
+        console.log(`Actual Output: ${output1}`); 
+        console.log("\n"); // Add a newline for better separation
+
+        // Exercise-2: Write a JavaScript function that returns a passed string with letters in alphabetical order.
+        function sortStringAlphabetically(str) {
+            const charArray = str.split('');
+            charArray.sort();
+            const sortedStr = charArray.join('');
+            return sortedStr;
+        }
+
+        console.log("--- Exercise 2: Sort String Alphabetically ---");
+        const exampleString = 'webmaster';
+        const output2 = sortStringAlphabetically(exampleString);
+        console.log(`Example string : '${exampleString}'`);
+        console.log(`Expected Output : 'abeemrstw'`);
+        console.log(`Actual Output : '${output2}'`);
+    </script>
+</body>
+</html>

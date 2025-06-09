@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Number Validation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column; /* Arrange items vertically */
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh; /* Use min-height to allow content to grow */
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 450px; /* Adjust max-width as needed */
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .input-group {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Center the label and input */
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            margin-right: 15px;
+            font-weight: bold;
+            white-space: nowrap; /* Prevent label from wrapping */
+        }
+        .input-group input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            width: 200px; /* Fixed width for input field */
+            box-sizing: border-box; /* Include padding in width */
+            outline: none;
+        }
+        .input-group input[type="text"]:focus {
+            border-color: #66afe9;
+            box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+        }
+        button {
+            background-color: #007bff; /* Blue button */
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+            margin-top: 10px; /* Space between input and button */
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .validation-message {
+            margin-top: 25px;
+            font-size: 1em;
+            font-weight: bold;
+            color: red; /* Red color for error messages */
+            text-align: center;
+            min-height: 20px; /* Reserve space to prevent layout shift */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Mobile Number Validation using JavaScript</h2>
+
+        <div class="input-group">
+            <label for="mobileNumber">Enter Mobile Number</label>
+            <input type="text" id="mobileNumber" placeholder="Enter 10 Digit Mobile Num">
+        </div>
+
+        <button onclick="validateMobileNumber()">Validate</button>
+
+        <div class="validation-message" id="validationResult">
+            </div>
+    </div>
+
+    <script>
+        function validateMobileNumber() {
+            const mobileInput = document.getElementById('mobileNumber');
+            const validationResult = document.getElementById('validationResult');
+            const mobileNumber = mobileInput.value.trim(); // Get value and remove whitespace
+
+            // Regular expression for a 10-digit number starting with 6, 7, 8, or 9
+            // ^: start of the string
+            // [6-9]: must start with a digit from 6 to 9
+            // \d{9}: followed by exactly 9 more digits (0-9)
+            // $: end of the string
+            const mobilePattern = /^[6-9]\d{9}$/;
+
+            if (mobilePattern.test(mobileNumber)) {
+                // If the pattern matches
+                validationResult.textContent = "Valid mobile number.";
+                validationResult.style.color = "green"; // Optional: display valid message in green
+                mobileInput.style.borderColor = "#28a745"; // Optional: green border for valid input
+            } else {
+                // If the pattern does not match
+                validationResult.textContent = "Invalid mobile number. Please enter a 10-digit number starting with 6-9.";
+                validationResult.style.color = "red";
+                mobileInput.style.borderColor = "red"; // Red border for invalid input
+            }
+        }
+
+        // Optional: Clear validation message when user starts typing again
+        document.getElementById('mobileNumber').addEventListener('input', () => {
+            document.getElementById('validationResult').textContent = '';
+            document.getElementById('validationResult').style.color = 'red'; // Reset color for potential future error
+            document.getElementById('mobileNumber').style.borderColor = '#ccc'; // Reset border color
+        });
+    </script>
+</body>
+</html>

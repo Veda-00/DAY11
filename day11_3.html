@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap Form Validation Example</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .container {
+            max-width: 600px; /* Limit form width for better presentation */
+            margin-top: 50px;
+            margin-bottom: 50px;
+            padding: 30px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2 class="mb-4">Form Validation Using Bootstrap</h2>
+        <form class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="firstName" class="form-label">
+                    <i class="fas fa-user"></i> First Name
+                </label>
+                <input type="text" class="form-control" id="firstName" placeholder="First Name" required>
+                <div class="invalid-feedback">
+                    Please provide your first name.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="lastName" class="form-label">
+                    <i class="fas fa-user"></i> Last Name
+                </label>
+                <input type="text" class="form-control" id="lastName" placeholder="Last Name" required>
+                <div class="invalid-feedback">
+                    Please provide your last name.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">
+                    <i class="fas fa-envelope"></i> E-Mail
+                </label>
+                <input type="email" class="form-control" id="email" placeholder="E-Mail Address" required>
+                <div class="invalid-feedback">
+                    Please provide your valid email address.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="phone" class="form-label">
+                    <i class="fas fa-phone"></i> Phone #
+                </label>
+                <input type="tel" class="form-control" id="phone" placeholder="(XXX) XXX-XXXX" required pattern="^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$">
+                <div class="invalid-feedback">
+                    Please provide a valid phone number (e.g., (123) 456-7890).
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="address" class="form-label">
+                    <i class="fas fa-home"></i> Address
+                </label>
+                <input type="text" class="form-control" id="address" placeholder="Address" required>
+                <div class="invalid-feedback">
+                    Please provide your address.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="city" class="form-label">
+                    <i class="fas fa-city"></i> City
+                </label>
+                <input type="text" class="form-control" id="city" placeholder="City" required>
+                <div class="invalid-feedback">
+                    Please provide your city.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="state" class="form-label">
+                    <i class="fas fa-map-marker-alt"></i> State
+                </label>
+                <select class="form-select" id="state" required>
+                    <option selected disabled value="">Please select your state</option>
+                    <option value="AL">Alabama</option>
+                    <option value="AK">Alaska</option>
+                    <option value="AZ">Arizona</option>
+                    <option value="NY">New York</option>
+                    <option value="CA">California</option>
+                    <option value="TX">Texas</option>
+                </select>
+                <div class="invalid-feedback">
+                    Please select a state.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Do you have funding?</label>
+                <div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="funding" id="fundingYes" value="yes" required>
+                        <label class="form-check-label" for="fundingYes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="funding" id="fundingNo" value="no" required>
+                        <label class="form-check-label" for="fundingNo">No</label>
+                    </div>
+                </div>
+                <div class="invalid-feedback">
+                    Please select an option.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="projectDescription" class="form-label">
+                    <i class="fas fa-file-alt"></i> Project Description
+                </label>
+                <textarea class="form-control" id="projectDescription" rows="3" placeholder="Project Description"></textarea>
+            </div>
+
+            <button class="btn btn-warning" type="submit">Register</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVpZVfjQVAiS6MXVlXnJzZfKXLkjkXHz/sJqQ8h5l28N" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZsvFpAQFLGRsBvXl6SH+tYwaIjqXfxseXWbYc6z7l+L4DXgScdXStqjGZFGz" crossorigin="anonymous"></script>
+
+    <script>
+        // JavaScript for Bootstrap form validation
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+</body>
+</html>

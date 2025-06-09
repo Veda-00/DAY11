@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+
+        :root {
+            --bg-color: #282c34; /* Dark background */
+            --card-bg: #3c424a; /* Slightly lighter dark for card */
+            --text-color: #e0e0e0; /* Light text */
+            --primary-color: #61dafb; /* Cyan/blue for accents */
+            --button-hover: #4eacd4;
+            --input-bg: #2d313a;
+            --border-color: #555;
+            --shadow-color: rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px var(--shadow-color);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .password-display-group {
+            display: flex;
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            overflow: hidden;
+            background-color: var(--input-bg);
+        }
+
+        #password-display {
+            flex-grow: 1;
+            padding: 12px 15px;
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1.1em;
+            font-family: 'Courier New', monospace; /* Monospaced for readability */
+            outline: none;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; /* ... for long passwords */
+        }
+
+        .copy-button {
+            background-color: var(--primary-color);
+            color: var(--bg-color);
+            border: none;
+            padding: 12px 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .copy-button:hover {
+            background-color: var(--button-hover);
+        }
+
+        .copy-button i {
+            margin-left: 5px; /* Space between text and icon */
+        }
+
+        .options-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .option-item {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .option-item label {
+            flex-grow: 1;
+            margin-right: 15px;
+            font-size: 0.95em;
+            cursor: pointer;
+        }
+
+        .option-item input[type="range"] {
+            width: 100%;
+            -webkit-appearance: none; /* Remove default slider styling for Chrome/Safari */
+            appearance: none;
+            height: 8px;
+            background: var(--input-bg);
+            outline: none;
+            border-radius: 5px;
+            transition: opacity .2s;
+        }
+
+        .option-item input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            border: 3px solid var(--card-bg); /* Ring effect */
+            box-shadow: 0 0 5px var(--primary-color);
+        }
+
+        .option-item input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            border: 3px solid var(--card-bg);
+            box-shadow: 0 0 5px var(--primary-color);
+        }
+
+        .option-item input[type="checkbox"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--primary-color);
+            border-radius: 4px;
+            background-color: var(--input-bg);
+            cursor: pointer;
+            position: relative;
+            margin-right: 8px;
+            flex-shrink: 0; /* Prevent checkbox from shrinking */
+            vertical-align: middle;
+        }
+
+        .option-item input[type="checkbox"]:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .option-item input[type="checkbox"]:checked::after {
+            content: '\2713'; /* Checkmark Unicode character */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--bg-color); /* Dark color for checkmark */
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* Span for length display */
+        #password-length-value {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-left: 10px;
+            min-width: 20px; /* Ensure space for 2-digit numbers */
+            display: inline-block;
+        }
+
+        .generate-button {
+            background-color: var(--primary-color);
+            color: var(--bg-color);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+            width: 100%;
+        }
+
+        .generate-button:hover {
+            background-color: var(--button-hover);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Password - Generator</h2>
+
+        <div class="password-display-group">
+            <input type="text" id="password-display" readonly value="Click Generate">
+            <button class="copy-button" id="copy-button">Copy <i class="far fa-copy"></i></button>
+        </div>
+
+        <div class="options-group">
+            <div class="option-item">
+                <label for="password-length">Length:</label>
+                <input type="range" id="password-length" min="6" max="20" value="12">
+                <span id="password-length-value">12</span>
+            </div>
+
+            <div class="option-item">
+                <input type="checkbox" id="include-uppercase" checked>
+                <label for="include-uppercase">Uppercase Letters</label>
+            </div>
+            <div class="option-item">
+                <input type="checkbox" id="include-lowercase" checked>
+                <label for="include-lowercase">Lowercase Letters</label>
+            </div>
+            <div class="option-item">
+                <input type="checkbox" id="include-numbers" checked>
+                <label for="include-numbers">Numbers</label>
+            </div>
+            <div class="option-item">
+                <input type="checkbox" id="include-symbols" checked>
+                <label for="include-symbols">Symbols</label>
+            </div>
+        </div>
+
+        <button class="generate-button" id="generate-button">Generate Password</button>
+    </div>
+
+    <script>
+        const passwordDisplay = document.getElementById('password-display');
+        const passwordLengthSlider = document.getElementById('password-length');
+        const passwordLengthValue = document.getElementById('password-length-value');
+        const includeUppercase = document.getElementById('include-uppercase');
+        const includeLowercase = document.getElementById('include-lowercase');
+        const includeNumbers = document.getElementById('include-numbers');
+        const includeSymbols = document.getElementById('include-symbols');
+        const generateButton = document.getElementById('generate-button');
+        const copyButton = document.getElementById('copy-button');
+
+        // Character sets
+        const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
+        const numberChars = '0123456789';
+        const symbolChars = '!@#$%^&*()_-+=[]{}\\|;:\'",.<>/?`~';
+
+        // Update length display on slider change
+        passwordLengthSlider.addEventListener('input', () => {
+            passwordLengthValue.textContent = passwordLengthSlider.value;
+        });
+
+        // Generate password on button click
+        generateButton.addEventListener('click', generatePassword);
+
+        // Copy password to clipboard
+        copyButton.addEventListener('click', () => {
+            passwordDisplay.select(); // Select the text in the input
+            passwordDisplay.setSelectionRange(0, 99999); // For mobile devices
+            document.execCommand('copy'); // Copy the selected text
+            
+            // Optional: Provide feedback to the user
+            const originalButtonText = copyButton.innerHTML;
+            copyButton.innerHTML = 'Copied! <i class="fas fa-check"></i>';
+            setTimeout(() => {
+                copyButton.innerHTML = originalButtonText;
+            }, 1500); // Revert text after 1.5 seconds
+        });
+
+        function generatePassword() {
+            let allChars = '';
+            let generatedPassword = '';
+            const length = parseInt(passwordLengthSlider.value);
+
+            if (includeUppercase.checked) {
+                allChars += uppercaseChars;
+            }
+            if (includeLowercase.checked) {
+                allChars += lowercaseChars;
+            }
+            if (includeNumbers.checked) {
+                allChars += numberChars;
+            }
+            if (includeSymbols.checked) {
+                allChars += symbolChars;
+            }
+
+            // Ensure at least one character type is selected
+            if (allChars.length === 0) {
+                passwordDisplay.value = "Select at least one option!";
+                return;
+            }
+            
+            // Ensure the password includes at least one of each selected type if possible
+            // This makes the password stronger by guaranteeing variety.
+            if (includeUppercase.checked) {
+                generatedPassword += getRandomChar(uppercaseChars);
+            }
+            if (includeLowercase.checked) {
+                generatedPassword += getRandomChar(lowercaseChars);
+            }
+            if (includeNumbers.checked) {
+                generatedPassword += getRandomChar(numberChars);
+            }
+            if (includeSymbols.checked) {
+                generatedPassword += getRandomChar(symbolChars);
+            }
+
+            // Fill the rest of the password length with random characters from all selected types
+            for (let i = generatedPassword.length; i < length; i++) {
+                generatedPassword += getRandomChar(allChars);
+            }
+
+            // Shuffle the generated password to ensure characters from different sets are not always at the beginning
+            generatedPassword = shuffleString(generatedPassword);
+
+            passwordDisplay.value = generatedPassword;
+        }
+
+        // Helper function to get a random character from a string
+        function getRandomChar(charSet) {
+            const randomIndex = Math.floor(Math.random() * charSet.length);
+            return charSet[randomIndex];
+        }
+
+        // Helper function to shuffle a string
+        function shuffleString(str) {
+            let array = str.split('');
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]]; // ES6 swap
+            }
+            return array.join('');
+        }
+
+        // Generate a password on initial load
+        generatePassword();
+    </script>
+</body>
+</html>
